@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaféQuick</title>
+    <style>
+        body { 
+            background: url("https://www.shutterstock.com/image-photo/black-paper-cup-coffee-beans-600nw-2120395832.jpg") no-repeat center center fixed; 
+            background-size: cover; 
+            background-position: center;
+            height: 100vh; /* Full height of the viewport */
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white; 
+            background-attachment: fixed; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; 
+        }
+
+        
+        .header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center; 
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .header a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            font-size: 600%;
+            margin-bottom: 20px; 
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center; 
+            gap: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 24px;
+            background-color: greenyellow;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        
+
+        button:hover {
+            background-color: #f1f1f1;
+        }
+
+        button a {
+            text-decoration: none;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="header">
+        <div class="button-container">
+            <button>
+                <a href="login.html">Login</a>
+            </button>
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+
+    <h1>Welcome to QuickCafe!</h1>
+</body>
+</html>
+
