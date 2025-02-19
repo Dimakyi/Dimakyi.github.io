@@ -83,9 +83,9 @@
         <div class="form-section register-section">
             <h1>Register</h1>
             <form method="POST">
-                Username: <input type="text" name="name" required><br>
-                Email: <input type="email" name="email" required><br>
-                Number: <input type="text" name="phone" required><br>
+                Username: <input type="text" name="name" placeholder="eg Charlotte"><br>
+                Email: <input type="email" name="email" placeholder="@gmail.com"><br>
+                Number: <input type="text" name="phone" placeholder="0** *** ****"><br>
                 <button type="submit">Register</button>
             </form>
             <p>Already have an account? <a href="#" class="toggle-link" onclick="toggleForm('login')">Login</a></p>
@@ -97,7 +97,7 @@
             <form method="POST">
                 <label for="login">Login with Username or Email:</label><br>
                 <input type="text" name="login" placeholder="Enter username or email" required><br>
-                Password: <input type="password" name="password" required><br>
+                Password: <input type="password" name="password" placeholder="Enter password"><br>
                 <button type="submit">Login</button>
             </form>
             <p>Don't have an account? <a href="#" class="toggle-link" onclick="toggleForm('register')">Register</a></p>

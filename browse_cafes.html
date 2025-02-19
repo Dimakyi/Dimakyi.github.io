@@ -4,52 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse Cafes</title>
-</head>
-<style>
-    html {
-        background-image: url("https://img.freepik.com/premium-photo/black-background-with-smoke-steam-smoke-is-thick-dark-steam-is-rising-from-ground_9083-27330.jpg");
-        background-size: contain;     
-    }
-
-    body {  
+    <style>
+        body {
+            background-image: url("https://img.freepik.com/premium-photo/black-background-with-smoke-steam-smoke-is-thick-dark-steam-is-rising-from-ground_9083-27330.jpg");
             background-size: cover;
             background-position: center;
-            height: 100vh; 
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: rgb(5, 110, 100);
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: white; 
-            background-attachment: fixed; 
-        }
-
-        .div{
-            background-color: rgba(0, 0, 0, 0.6); 
-            padding: 30px;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 400px;
+            flex-direction: column;
+            padding: 20px;
             text-align: center;
         }
 
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         h1 {
+            font-size: 3.5em;
+            color: white;
             margin-bottom: 20px;
         }
 
-        
-</style>
+        .image-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .image-container img {
+            width: 30%; /* Adjust the width to make the images smaller */
+            max-width: 200px; /* Ensure the images do not exceed a certain size */
+            height: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .cafe h3 {
+            color: white;
+            text-shadow: rgb(29, 139, 128);
+            margin: 10px 0;
+        }
+
+        .cafe ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .cafe li {
+            margin: 5px 0;
+        }
+
+        .cafe a {
+            color: #ff9900;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .cafe a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
 <body>
-    <h1>Choose a Cafe</h1>
-    {% for cafe in cafes %}
-        <div>
-            <h3>{{ cafe.name }}</h3>
-            <ul>
-                {% for item in cafe.menu %}
-                    <li>{{ item.item }} - R{{ item.price }} <a href="{{ url_for('add_to_cart', cafe_id=cafe.id, item_id=item.id) }}">Add to Cart</a></li>
-                {% endfor %}
-            </ul>
+    <div class="container">
+        <h1>Cafes</h1>
+        
+        
+        <div class="image-container">
+            <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid" alt="Coffee Cup 1">
+            <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid" alt="Coffee Cup 2">
+            <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid" alt="Coffee Cup 3">
+            <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid" alt="Coffee Cup 4">
         </div>
-    {% endfor %}
+    </div>
 </body>
 </html>
