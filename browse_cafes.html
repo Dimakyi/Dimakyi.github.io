@@ -5,6 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse Cafes</title>
 </head>
+<style>
+    html {
+        background-image: url("https://img.freepik.com/premium-photo/black-background-with-smoke-steam-smoke-is-thick-dark-steam-is-rising-from-ground_9083-27330.jpg");
+        background-size: contain;     
+    }
+
+    body {  
+            background-size: cover;
+            background-position: center;
+            height: 100vh; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white; 
+            background-attachment: fixed; 
+        }
+
+        .div{
+            background-color: rgba(0, 0, 0, 0.6); 
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        
+</style>
 <body>
     <h1>Choose a Cafe</h1>
     {% for cafe in cafes %}
