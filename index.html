@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,9 +20,9 @@
             justify-content: center;
             align-items: center;
             flex-direction: column; 
+            text-align: center;
         }
 
-        
         .header {
             position: absolute;
             top: 20px;
@@ -28,6 +30,7 @@
             display: flex;
             gap: 20px;
             align-items: center; 
+            flex-wrap: wrap;
         }
 
         .header a {
@@ -42,7 +45,7 @@
         }
 
         h1 {
-            font-size: 600%;
+            font-size: 6vw; /* Scaling the font size based on viewport width */
             margin-bottom: 20px; 
         }
 
@@ -50,11 +53,13 @@
             display: flex;
             align-items: center; 
             gap: 20px;
+            flex-wrap: wrap; /* Ensures buttons stack on smaller screens */
+            justify-content: center;
         }
 
         button {
             padding: 10px 20px;
-            font-size: 24px;
+            font-size: 4vw; /* Responsive button size */
             background-color: greenyellow;
             color: #333;
             border: none;
@@ -64,8 +69,6 @@
             transition: background-color 0.3s ease;
         }
 
-        
-
         button:hover {
             background-color: #f1f1f1;
         }
@@ -74,10 +77,46 @@
             text-decoration: none;
             color: #333;
         }
+
+        /* Responsive Design - Media Queries */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 10vw; /* Larger text on smaller screens */
+            }
+
+            .header {
+                top: 10px;
+                left: 10px;
+                font-size: 14px;
+            }
+
+            .button-container button {
+                font-size: 5vw; /* Adjust the button size on smaller screens */
+                padding: 12px 25px;
+            }
+
+            .header a {
+                font-size: 16px; /* Adjust header link size */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .button-container {
+                gap: 10px;
+            }
+
+            .header a {
+                font-size: 14px; /* Smaller font size for links on mobile */
+            }
+
+            button {
+                padding: 8px 15px;
+                font-size: 6vw; /* Adjust font size for very small screens */
+            }
+        }
     </style>
 </head>
 <body>
-    
     <div class="header">
         <div class="button-container">
             <button>
@@ -91,4 +130,3 @@
     <h1>Welcome to QuickCafe!</h1>
 </body>
 </html>
-

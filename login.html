@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +9,10 @@
         html {
             background-color: black;
         }
-        
+
         body { 
             background: url("https://www.shutterstock.com/image-photo/black-paper-cup-coffee-beans-600nw-2120395832.jpg") no-repeat center center fixed; 
-            background-size: contain;
+            background-size: 800px 800px; /* Matching the size of cups from image 7 and 8 */
             background-position: center;
             height: 100vh; /* Full height of the viewport */
             display: flex;
@@ -57,7 +58,6 @@
             background-color: #45a049;
         }
 
-       
         .toggle-link {
             color: #4CAF50;
             text-decoration: none;
@@ -82,7 +82,8 @@
        
         <div class="form-section register-section">
             <h1>Register</h1>
-            <form method="POST">
+
+            <form id="register-form"> 
                 Username: <input type="text" name="name" placeholder="eg Charlotte"><br>
                 Email: <input type="email" name="email" placeholder="@gmail.com"><br>
                 Number: <input type="text" name="phone" placeholder="0** *** ****"><br>
@@ -94,7 +95,7 @@
         
         <div class="form-section login-section">
             <h1>Login</h1>
-            <form method="POST">
+            <form id="login-form"> 
                 <label for="login">Login with Username or Email:</label><br>
                 <input type="text" name="login" placeholder="Enter username or email" required><br>
                 Password: <input type="password" name="password" placeholder="Enter password"><br>
@@ -114,9 +115,17 @@
                 document.querySelector('.register-section').style.display = 'none';
             }
         }
+
+        // Handle form submission and redirect to browse_cafes.html
+        document.getElementById("register-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form from submitting in the default way
+            window.location.href = "browse_cafes.html"; // Redirect to browse_cafes.html
+        });
+
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form from submitting in the default way
+            window.location.href = "browse_cafes.html"; // Redirect to browse_cafes.html
+        });
     </script>
 </body>
 </html>
-
-
-

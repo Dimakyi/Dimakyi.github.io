@@ -1,99 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browse Cafes</title>
-    <style>
-        body {
-            background-image: url("https://img.freepik.com/premium-photo/black-background-with-smoke-steam-smoke-is-thick-dark-steam-is-rising-from-ground_9083-27330.jpg");
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: rgb(5, 110, 100);
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 20px;
-            text-align: center;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Cafes</title>
+  <style>
+    body {
+      background-image: url("https://img.freepik.com/premium-photo/black-background-with-smoke-steam-smoke-is-thick-dark-steam-is-rising-from-ground_9083-27330.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: rgb(5, 110, 100);
+      background-attachment: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
 
-        .container {
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 30px;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 900px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .container {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 1000px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+    }
 
-        h1 {
-            font-size: 3.5em;
-            color: white;
-            margin-bottom: 20px;
-        }
+    h1 {
+      font-size: 3em;
+      color: white;
+      margin-bottom: 30px;
+      text-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+    }
 
-        .image-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
-            align-items: center;
-        }
+    .image-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
 
-        .image-container img {
-            width: 30%; /* Adjust the width to make the images smaller */
-            max-width: 200px; /* Ensure the images do not exceed a certain size */
-            height: auto;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
+    .image-container .image-item {
+      text-align: center;
+      position: relative;
+      width: 30%;
+      max-width: 280px;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-        .cafe h3 {
-            color: white;
-            text-shadow: rgb(29, 139, 128);
-            margin: 10px 0;
-        }
+    .image-container img {
+      width: 100%;
+      height: auto;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-        .cafe ul {
-            list-style-type: none;
-            padding: 0;
-        }
+    .image-item:hover img {
+      transform: scale(1.1);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
 
-        .cafe li {
-            margin: 5px 0;
-        }
+    .image-item p {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
-        .cafe a {
-            color: #ff9900;
-            text-decoration: none;
-            font-weight: bold;
-        }
+    .image-item:hover p {
+      opacity: 1;
+    }
 
-        .cafe a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    .image-item .logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 5px;
+    }
+
+    .image-item .logo img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .cafe h3 {
+      color: white;
+      text-shadow: rgb(29, 139, 128);
+      margin: 10px 0;
+    }
+
+    .cafe ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .cafe li {
+      margin: 5px 0;
+    }
+
+    .cafe a {
+      color: #ff9900;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .cafe a:hover {
+      text-decoration: underline;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5em; /* Smaller font size for medium screens */
+      }
+
+      .image-container .image-item {
+        width: 45%; /* Make images larger on medium screens */
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2em; /* Further reduce font size on small screens */
+      }
+
+      .image-container .image-item {
+        width: 90%; /* Images will take up more space on small screens */
+      }
+
+      .image-item p {
+        font-size: 1em; /* Smaller text for image description */
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Cafes</h1>
-        
-        
-        <div class="image-container">
-            <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid" alt="Coffee Cup 1">
-            <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid" alt="Coffee Cup 2">
-            <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid" alt="Coffee Cup 3">
-            <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid" alt="Coffee Cup 4">
+  <div class="container">
+    <h1>Cafes</h1>
+
+    <div class="image-container">
+      <div class="image-item">
+        <img
+          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
+          alt="Green Dot Cafe">
+        <p>Green Dot Cafe</p>
+        <div class="logo">
+          <img src="https://via.placeholder.com/50" alt="Green Dot Cafe Logo">
         </div>
+      </div>
+      <div class="image-item">
+        <img
+          src="images/my_coffees.jpg"
+          alt="Café Mocha">
+        <p>Café Mocha</p>
+      </div>
+      <div class="image-item">
+        <img
+          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
+          alt="Espresso Bar">
+        <p>Espresso Bar</p>
+        <div class="logo">
+          <img src="https://via.placeholder.com/50" alt="Espresso Bar Logo">
+        </div>
+      </div>
     </div>
+
+    <div class="image-container">
+      <div class="image-item">
+        <img
+          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
+          alt="Daily Brew">
+        <p>Daily Brew</p>
+        <div class="logo">
+          <img src="https://via.placeholder.com/50" alt="Daily Brew Logo">
+        </div>
+      </div>
+      <div class="image-item">
+        <img
+          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
+          alt="Coffee House">
+        <p>Coffee House</p>
+        <div class="logo">
+          <img src="https://via.placeholder.com/50" alt="Coffee House Logo">
+        </div>
+      </div>
+      <div class="image-item">
+        <img
+          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
+          alt="Café Mocha">
+        <p>Café Mocha</p>
+        <div class="logo">
+          <img src="https://via.placeholder.com/50" alt="Café Mocha Logo">
+        </div>
+      </div>
+    </div>
+
+    <div class="image-container">
+      <div class="image-item">
+        <img
+          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
+          alt="Urban Grind">
+        <p>Urban Grind</p>
+        <div class="logo">
+          <img src="https://via.placeholder.com/50" alt="Urban Grind Logo">
+        </div>
+      </div>
+      <div class="image-item">
+        <img
+          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
+          alt="Latte Love">
+        <p>Latte Love</p>
+        <div class="logo">
+          <img src="https://via.placeholder.com/50" alt="Latte Love Logo">
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
