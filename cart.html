@@ -1,20 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Cart</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #1abc9c;
+    }
+
+    .cart-section,
+    .menu-section {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+      background: #f9f9f9;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      background: #1abc9c;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #16a085;
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Your Cart</h1>
+
+  <h1>Your Cart</h1>
+
+  <div class="cart-section">
+    {% if cart %}
     <ul>
-        {% for item in cart %}
-            <li>{{ item.item }} - R{{ item.price }}</li>
-        {% endfor %}
+      {% for item in cart %}
+      <li>{{ item.item }} - R{{ item.price }}</li>
+      {% endfor %}
     </ul>
-    <p>Total: R{{ total }}</p>
+    <p><strong>Total:</strong> R{{ total }}</p>
     <form action="{{ url_for('place_order') }}" method="POST">
-        <button type="submit">Place Order</button>
+      <button type="submit">Place Order</button>
     </form>
+    {% else %}
+    <p>Your cart is empty.</p>
+    {% endif %}
+  </div>
+
 </body>
+
 </html>
