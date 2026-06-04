@@ -6,243 +6,241 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Browse Cafes</title>
   <style>
+    /* General Styling */
     body {
       background-image: url("https://img.freepik.com/premium-photo/black-background-with-smoke-steam-smoke-is-thick-dark-steam-is-rising-from-ground_9083-27330.jpg");
       background-size: cover;
       background-position: center;
-      height: 100vh;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: rgb(5, 110, 100);
       background-attachment: fixed;
+      margin: 0;
+      font-family: "Poppins", Arial, sans-serif;
+      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       padding: 20px;
       text-align: center;
     }
 
+    /* Container */
     .container {
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 30px;
-      border-radius: 10px;
-      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 40px;
+      border-radius: 12px;
       max-width: 1000px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow: hidden;
+      width: 90%;
+      box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: fadeIn 1.2s ease-in-out;
+      position: relative;
     }
 
     h1 {
-      font-size: 3em;
-      color: white;
-      margin-bottom: 30px;
-      text-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+      font-size: 2.8em;
+      margin-bottom: 20px;
+      color: #1abc9c;
+      text-shadow: 0px 0px 10px rgba(26, 188, 156, 0.8);
     }
 
-    .image-container {
+    /* Scrollable Container */
+    .scroll-container {
       display: flex;
-      flex-wrap: wrap;
+      overflow-x: auto;
+      scroll-behavior: smooth;
       gap: 20px;
-      justify-content: center;
-      margin-top: 20px;
+      padding-bottom: 20px;
+      max-width: 100%;
+      white-space: nowrap;
+      position: relative;
     }
 
-    .image-container .image-item {
+    .scroll-container::-webkit-scrollbar {
+      display: none;
+      /* Hide scrollbar */
+    }
+
+    /* Cafe Items */
+    .image-item {
+      flex: 0 0 auto;
+      width: 200px;
       text-align: center;
       position: relative;
-      width: 30%;
-      max-width: 280px;
       border-radius: 15px;
-      overflow: hidden;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.4);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding-bottom: 10px;
     }
 
-    .image-container img {
+    .image-item img {
       width: 100%;
       height: auto;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-      border-radius: 10px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .image-item:hover img {
-      transform: scale(1.1);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
     }
 
     .image-item p {
-      position: absolute;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: white;
+      margin-top: 10px;
       font-size: 1.2em;
       font-weight: bold;
+      color: white;
       text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-      opacity: 0;
-      transition: opacity 0.3s ease;
     }
 
-    .image-item:hover p {
-      opacity: 1;
-    }
-
-    .image-item .logo {
+    /* Coffee Mug Icon */
+    .logo {
       position: absolute;
-      top: 50%;
+      top: 35%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 50px;
       height: 50px;
-      border-radius: 50%;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 5px;
+      opacity: 0.9;
     }
 
-    .image-item .logo img {
+    .logo img {
       width: 100%;
       height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
+      filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.6));
     }
 
-    .cafe h3 {
+    /* Cafe Button */
+    .menu-button {
+      margin-top: 10px;
+      display: inline-block;
+      padding: 10px 15px;
+      font-size: 1em;
       color: white;
-      text-shadow: rgb(29, 139, 128);
-      margin: 10px 0;
-    }
-
-    .cafe ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .cafe li {
-      margin: 5px 0;
-    }
-
-    .cafe a {
-      color: #ff9900;
+      background: linear-gradient(90deg, #1abc9c, #16a085);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
       text-decoration: none;
       font-weight: bold;
+      box-shadow: 0px 4px 10px rgba(26, 188, 156, 0.5);
     }
 
-    .cafe a:hover {
-      text-decoration: underline;
+    .menu-button:hover {
+      background: linear-gradient(90deg, #16a085, #1abc9c);
+      box-shadow: 0px 6px 15px rgba(26, 188, 156, 0.8);
+      transform: scale(1.05);
     }
 
-    /* Media Queries for Responsiveness */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2.5em; /* Smaller font size for medium screens */
-      }
-
-      .image-container .image-item {
-        width: 45%; /* Make images larger on medium screens */
-      }
+    /* Scroll Buttons */
+    .scroll-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 50%;
+      transition: background 0.3s ease;
     }
 
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 2em; /* Further reduce font size on small screens */
-      }
+    .scroll-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
 
-      .image-container .image-item {
-        width: 90%; /* Images will take up more space on small screens */
-      }
+    .left-btn {
+      left: -30px;
+    }
 
-      .image-item p {
-        font-size: 1em; /* Smaller text for image description */
-      }
+    .right-btn {
+      right: -30px;
     }
   </style>
 </head>
 
 <body>
+
   <div class="container">
-    <h1>Cafes</h1>
+    <h1>Browse Cafes</h1>
 
-    <div class="image-container">
+    <!-- Scroll Buttons -->
+    <button class="scroll-btn left-btn" onclick="scrollLeft()">&#10094;</button>
+    <button class="scroll-btn right-btn" onclick="scrollRight()">&#10095;</button>
+
+    <div class="scroll-container">
       <div class="image-item">
-        <img
-          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
+        <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg"
           alt="Green Dot Cafe">
+        <div class="logo"><img src="https://cdn-icons-png.flaticon.com/512/590/590836.png" alt="Coffee Mug"></div>
         <p>Green Dot Cafe</p>
-        <div class="logo">
-          <img src="https://via.placeholder.com/50" alt="Green Dot Cafe Logo">
-        </div>
+        <a href="menu_greendot.html" class="menu-button">View Menu</a>
       </div>
+
       <div class="image-item">
-        <img
-          src="images/my_coffees.jpg"
+        <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg"
           alt="Café Mocha">
+        <div class="logo"><img src="https://cdn-icons-png.flaticon.com/512/590/590836.png" alt="Coffee Mug"></div>
         <p>Café Mocha</p>
+        <a href="menu_mocha.html" class="menu-button">View Menu</a>
       </div>
+
       <div class="image-item">
-        <img
-          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
+        <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg"
           alt="Espresso Bar">
+        <div class="logo"><img src="https://cdn-icons-png.flaticon.com/512/590/590836.png" alt="Coffee Mug"></div>
         <p>Espresso Bar</p>
-        <div class="logo">
-          <img src="https://via.placeholder.com/50" alt="Espresso Bar Logo">
-        </div>
+        <a href="menu_espresso.html" class="menu-button">View Menu</a>
       </div>
-    </div>
 
-    <div class="image-container">
       <div class="image-item">
-        <img
-          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
-          alt="Daily Brew">
-        <p>Daily Brew</p>
-        <div class="logo">
-          <img src="https://via.placeholder.com/50" alt="Daily Brew Logo">
-        </div>
+        <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg"
+          alt="Java Haven">
+        <div class="logo"><img src="https://cdn-icons-png.flaticon.com/512/590/590836.png" alt="Coffee Mug"></div>
+        <p>Java Haven</p>
+        <a href="menu_javahaven.html" class="menu-button">View Menu</a>
       </div>
-      <div class="image-item">
-        <img
-          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
-          alt="Coffee House">
-        <p>Coffee House</p>
-        <div class="logo">
-          <img src="https://via.placeholder.com/50" alt="Coffee House Logo">
-        </div>
-      </div>
-      <div class="image-item">
-        <img
-          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
-          alt="Café Mocha">
-        <p>Café Mocha</p>
-        <div class="logo">
-          <img src="https://via.placeholder.com/50" alt="Café Mocha Logo">
-        </div>
-      </div>
-    </div>
 
-    <div class="image-container">
       <div class="image-item">
-        <img
-          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
-          alt="Urban Grind">
-        <p>Urban Grind</p>
-        <div class="logo">
-          <img src="https://via.placeholder.com/50" alt="Urban Grind Logo">
-        </div>
+        <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg"
+          alt="Morning Brew">
+        <div class="logo"><img src="https://cdn-icons-png.flaticon.com/512/590/590836.png" alt="Coffee Mug"></div>
+        <p>Morning Brew</p>
+        <a href="menu_morningbrew.html" class="menu-button">View Menu</a>
       </div>
+
       <div class="image-item">
-        <img
-          src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg?ga=GA1.1.1226312297.1739971629&semt=ais_hybrid"
+        <img src="https://img.freepik.com/premium-photo/black-takeaway-paper-coffee-cup-black_1032820-1276.jpg"
           alt="Latte Love">
+        <div class="logo"><img src="https://cdn-icons-png.flaticon.com/512/590/590836.png" alt="Coffee Mug"></div>
         <p>Latte Love</p>
-        <div class="logo">
-          <img src="https://via.placeholder.com/50" alt="Latte Love Logo">
-        </div>
+        <a href="menu_lattelove.html" class="menu-button">View Menu</a>
       </div>
     </div>
   </div>
+
+  <!-- JavaScript for Looping Scroll -->
+  <script>
+    function scrollLeft() {
+      let container = document.querySelector('.scroll-container');
+      if (container.scrollLeft <= 0) {
+        container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: -300, behavior: 'smooth' });
+      }
+    }
+
+    function scrollRight() {
+      let container = document.querySelector('.scroll-container');
+      if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
+        container.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: 300, behavior: 'smooth' });
+      }
+    }
+  </script>
+
 </body>
 
 </html>
+
