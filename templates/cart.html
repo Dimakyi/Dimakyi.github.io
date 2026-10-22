@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart | CaféQuick</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #101112;
+      --surface: #1b1d1e;
+      --surface-light: #292c2d;
+      --text: #ffffff;
+      --muted: #c7c9c7;
+      --accent: #b8ff45;
+      --accent-hover: #ccff78;
+      --border: rgba(255, 255, 255, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 48px 24px;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(
+          circle at 78% 30%,
+          rgba(137, 84, 46, 0.24),
+          transparent 42%
+        ),
+        var(--background);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(27, 29, 30, 0.92);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+    }
+
+    .page-nav {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0 0 28px;
+      color: var(--accent);
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .cart-section {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-light);
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    .total {
+      margin: 24px 0 16px;
+      color: var(--accent);
+      font-size: 1.25rem;
+      font-weight: bold;
+      text-align: right;
+    }
+
+    .empty-message {
+      padding: 24px 8px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 11px 16px;
+      color: #101112;
+      background: var(--accent);
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .button:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
+    .button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .secondary-button {
+      color: var(--accent);
+      background: var(--surface);
+      border-color: var(--border);
+    }
+
+    .secondary-button:hover {
+      color: #101112;
+      background: var(--accent-hover);
+    }
+
+    .order-form {
+      margin: 0;
+      text-align: right;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 24px 14px;
+      }
+
+      .container {
+        padding: 22px 16px;
+      }
+
+      .cart-section {
+        padding: 16px;
+      }
+
+      .total,
+      .order-form {
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <nav class="page-nav" aria-label="Page navigation">
+      <a href="{{ url_for('index') }}" class="button secondary-button">← Home</a>
+    </nav>
+
+    <h1>Your Cart</h1>
+
+
+<section class="cart-section" aria-label="Shopping cart">
+  {% if cart %}
+    <ul class="cart-items">
+      {% for item in cart %}
+        <li class="cart-item">
+          <div class="cart-item-details">
+            <strong>{{ item.item }}</strong>
+            <p>From {{ item.cafe_name }}</p>
+            <p>Unit price: R{{ "%.2f"|format(item.price) }}</p>
+            <p>
+              Subtotal:
+              <strong>
+                R{{ "%.2f"|format(item.price * item.quantity) }}
+              </strong>
+            </p>
+          </div>
+
+          <form action="{{ url_for('update_cart') }}" method="POST">
+	    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="cafe_id" value="{{ item.cafe_id }}">
+            <input type="hidden" name="item_id" value="{{ item.item_id }}">
+
+            <label for="quantity-{{ item.cafe_id }}-{{ item.item_id }}">
+              Quantity
+            </label>
+            <input
+              id="quantity-{{ item.cafe_id }}-{{ item.item_id }}"
+              type="number"
+              name="quantity"
+              value="{{ item.quantity }}"
+              min="1"
+              max="99"
+              required
+            >
+
+            <button class="button" type="submit" name="action" value="update">
+              Update
+            </button>
+
+            <button
+              class="button secondary-button"
+              type="submit"
+              name="action"
+              value="remove"
+            >
+              Remove
+            </button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <p class="total">Total: R{{ "%.2f"|format(total) }}</p>
+
+    <form class="order-form" action="{{ url_for('checkout') }}" method="GET">
+      <button class="button" type="submit">Proceed to Demo Checkout</button>
+    </form>
+  {% else %}
+    <p class="empty-message">
+      Your cart is empty. Browse our cafés to find something delicious.
+    </p>
+  {% endif %}
+</section>
+
+
+    <nav class="actions" aria-label="Shopping navigation">
+      <a class="button secondary-button" href="{{ url_for('browse_cafes') }}">Browse Cafés</a>
+    </nav>
+  </main>
+</body>
+</html>

@@ -1,0 +1,20 @@
+﻿# Python virtual environments
+.venv/
+.venv*/
+__pycache__/
+*.py[cod]
+
+# Environment secrets
+.env
+.env.*
+
+# Test cache
+.pytest_cache/
+
+# Local backup files
+*.backup
+
+# Local timestamped and manual backups
+*.bak
+*.before-*
+*.backup

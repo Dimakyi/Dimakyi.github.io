@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ cafe.name }} | Menu</title>
+    <style>
+
+:root {
+    color-scheme: dark;
+    --background: #101112;
+    --surface: #1b1d1e;
+    --surface-light: #292c2d;
+    --text: #ffffff;
+    --muted: #c7c9c7;
+    --accent: #b8ff45;
+    --accent-hover: #ccff78;
+    --border: rgba(255, 255, 255, 0.14);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 48px 24px;
+    font-family: Arial, sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(
+            circle at 78% 30%,
+            rgba(137, 84, 46, 0.24),
+            transparent 42%
+        ),
+        var(--background);
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 32px;
+    background: rgba(27, 29, 30, 0.92);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+}
+
+h1 {
+    margin: 0 0 12px;
+    color: var(--accent);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    line-height: 1.2;
+    text-align: center;
+}
+
+.intro {
+    margin: 0 0 28px;
+    color: var(--muted);
+    line-height: 1.6;
+    text-align: center;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.item-name {
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+}
+
+.price {
+    margin: 0;
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.button {
+    display: inline-block;
+    padding: 11px 16px;
+    color: #101112;
+    background: var(--accent);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+.button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 24px 14px;
+    }
+
+    .container {
+        padding: 22px 16px;
+    }
+
+    .menu-item {
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 380px) {
+    .menu-item {
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+    </style>
+</head>
+<body>
+<main class="container">
+        <h1>{{ cafe.name }}</h1>
+        <p class="intro">Explore the menu and add your favourites to your cart.</p>
+
+    {% for item in cafe.menu %}
+    <section class="menu-item">
+        <div>
+            <h2 class="item-name">{{ item.item }}</h2>
+            <p class="price">R {{ "%.2f"|format(item.price) }}</p>
+        </div>
+
+<form action="{{ url_for('add_to_cart', cafe_id=cafe.id, item_id=item.id) }}"
+      method="POST">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+  <label for="menu-quantity-{{ cafe.id }}-{{ item.id }}">
+
+  <input
+    id="menu-quantity-{{ cafe.id }}-{{ item.id }}"
+    type="number"
+    name="quantity"
+    value="1"
+    min="1"
+    max="99"
+    required
+  >
+
+  <button class="button" type="submit">Add to Cart</button>
+</form>
+
+
+    </section>
+    {% else %}
+    <p>No menu items are available for this café yet.</p>
+    {% endfor %}
+
+    <div class="actions">
+        <a class="button" href="{{ url_for('browse_cafes') }}">Back to Cafés</a>
+        <a class="button" href="{{ url_for('view_cart') }}">View Cart</a>
+    </div>
+</main>
+
+    {% include '_chat_assistant.html' %}
+</body>
+</html>

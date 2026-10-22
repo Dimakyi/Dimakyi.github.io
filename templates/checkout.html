@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Checkout | CaféQuick</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #101112;
+      --surface: #1b1d1e;
+      --surface-light: #292c2d;
+      --text: #ffffff;
+      --muted: #c7c9c7;
+      --accent: #b8ff45;
+      --accent-hover: #ccff78;
+      --border: rgba(255, 255, 255, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 32px 16px;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at top, rgba(75, 48, 27, 0.32), transparent 55%),
+        var(--background);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .home-link {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    h1 {
+      margin: 28px 0 8px;
+      color: var(--accent);
+    }
+
+    .intro {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .demo-notice {
+      margin: 24px 0;
+      padding: 16px;
+      color: var(--accent);
+      background: rgba(184, 255, 69, 0.08);
+      border: 1px solid rgba(184, 255, 69, 0.4);
+      border-radius: 10px;
+      line-height: 1.6;
+    }
+
+    .order-items {
+      margin: 24px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .order-items li {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 24px 0;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .total span:last-child {
+      color: var(--accent);
+    }
+
+    .button {
+      display: inline-block;
+      width: 100%;
+      padding: 14px 18px;
+      color: #101112;
+      background: var(--accent);
+      border: 0;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background: var(--accent-hover);
+    }
+
+    .secondary-link {
+      display: block;
+      margin-top: 18px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .button:focus-visible,
+    .home-link:focus-visible,
+    .secondary-link:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+
+      .order-items li {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <a class="home-link" href="{{ url_for('index') }}">â† Home</a>
+
+    <h1>Demo Checkout</h1>
+    <p class="intro">
+      Review your CaféQuick order before completing the simulated payment.
+    </p>
+
+    <section class="demo-notice" aria-label="Demo payment notice">
+      <strong>Demo Mode â€” No Real Payment</strong><br>
+      This is a portfolio demonstration. No money will be transferred,
+      and no bank or payment-provider details are required.
+    </section>
+
+
+<h2>Order Summary</h2>
+<ul class="order-items">
+  {% for item in cart %}
+  <li>
+    <span>
+      {{ item["item"] }}
+      <br>
+      <small>
+        Quantity: {{ item.get("quantity", 1) }}
+        Ã— R{{ "%.2f"|format(item["price"]) }}
+      </small>
+    </span>
+    <span>
+      R{{ "%.2f"|format(item["price"] * item.get("quantity", 1)) }}
+    </span>
+  </li>
+  {% endfor %}
+</ul>
+
+<p class="total">
+  <span>Total</span>
+  <span>R{{ "%.2f"|format(total) }}</span>
+</p>
+
+
+    <form action="{{ url_for('simulate_payment') }}" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <button class="button" type="submit">Simulate Payment</button>
+    </form>
+
+    <a class="secondary-link" href="{{ url_for('view_cart') }}">
+      â† Return to Cart
+    </a>
+  </main>
+</body>
+</html>

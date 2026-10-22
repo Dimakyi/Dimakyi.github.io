@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register & Login</title>
+    <style>
+        html {
+            background-color: black;
+        }
+
+        body {
+            background: url("https://www.shutterstock.com/image-photo/black-paper-cup-coffee-beans-600nw-2120395832.jpg") no-repeat center center fixed;
+            background-size: 800px 800px; /* Matching the size of cups from image 7 and 8 */
+            background-position: center;
+            height: 100vh; /* Full height of the viewport */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background-attachment: fixed;
+        }
+
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: greenyellow;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .toggle-link {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+
+        .form-section:not([hidden]) {
+    display: block;
+}
+
+.form-section[hidden] {
+    display: none !important;
+}
+
+.form-section label {
+    display: block;
+    margin-top: 0.75rem;
+    text-align: left;
+    line-height: 1.5;
+}
+
+.form-section input {
+    box-sizing: border-box;
+}
+
+.form-section input:focus-visible,
+.form-section button:focus-visible,
+.form-section a:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 3px;
+}
+
+.form-section button.toggle-link {
+    padding: 0.25rem 0.4rem;
+    background: transparent;
+    color: #b8ff45;
+    font: inherit;
+    text-decoration: underline;
+}
+
+.form-section button.toggle-link:hover {
+    background: #252a20;
+}
+
+.form-section [hidden] {
+    display: none !important;
+}
+    </style>
+</head>
+<body>
+    <div class="form-container">
+
+
+<div class="form-section register-section">
+    <h1 id="register-heading">Register</h1>
+
+    <form id="register-form" action="{{ url_for('register') }}" method="POST" aria-labelledby="register-heading">
+	<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <label for="register-name">Username</label>
+        <input
+            type="text"
+            id="register-name"
+            name="name"
+            placeholder="e.g. Charlotte"
+            autocomplete="username"
+            required>
+
+        <label for="register-email">Email address</label>
+        <input
+            type="email"
+            id="register-email"
+            name="email"
+            placeholder="name@example.com"
+            autocomplete="email"
+            required>
+
+        <label for="register-phone">Phone number</label>
+        <input
+            type="tel"
+            id="register-phone"
+            name="phone"
+            placeholder="e.g. 071 234 5678"
+            autocomplete="tel"
+            inputmode="tel"
+            required>
+
+        <label for="register-password">Password (at least 8 characters)</label>
+        <input
+            type="password"
+            id="register-password"
+            name="password"
+            minlength="8"
+            required
+            autocomplete="new-password">
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p>
+        Already have an account?
+        <button type="button" class="toggle-link" onclick="toggleForm('login')">
+            Login
+        </button>
+    </p>
+</div>
+
+<div class="form-section login-section" hidden>
+    <h1 id="login-heading">Login</h1>
+
+    <form id="login-form" action="{{ url_for('login') }}" method="POST" aria-labelledby="login-heading">
+	<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <label for="login">Username or email address</label>
+        <input
+            type="text"
+            id="login"
+            name="login"
+            placeholder="Enter username or email"
+            autocomplete="username"
+            required>
+
+        <label for="login-password">Password</label>
+        <input
+            type="password"
+            id="login-password"
+            name="password"
+            autocomplete="current-password"
+            required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p>
+        Don't have an account?
+        <button type="button" class="toggle-link" onclick="toggleForm('register')">
+            Register
+        </button>
+    </p>
+</div>
+    </div>
+
+    <script>
+
+function toggleForm(formType) {
+    const registerSection = document.querySelector(".register-section");
+    const loginSection = document.querySelector(".login-section");
+
+    if (formType === "register") {
+        registerSection.hidden = false;
+        loginSection.hidden = true;
+
+        document.getElementById("register-name").focus();
+    } else {
+        loginSection.hidden = false;
+        registerSection.hidden = true;
+
+        document.getElementById("login").focus();
+    }
+}
+
+    </script>
+</body>
+</html>

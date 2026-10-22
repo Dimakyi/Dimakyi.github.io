@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders | CaféQuick</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #101112;
+      --surface: #1b1d1e;
+      --surface-light: #292c2d;
+      --text: #ffffff;
+      --muted: #c7c9c7;
+      --accent: #b8ff45;
+      --accent-hover: #ccff78;
+      --border: rgba(255, 255, 255, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 32px 16px;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at top, rgba(75, 48, 27, 0.32), transparent 55%),
+        var(--background);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    h1 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .intro,
+    .empty-message {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .order {
+      margin: 20px 0;
+      padding: 20px;
+      background: var(--surface-light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .order h2 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      overflow-wrap: anywhere;
+    }
+
+    .order-reference {
+      color: var(--muted);
+      font-size: 0.9rem;
+      overflow-wrap: anywhere;
+    }
+
+    .payment-status {
+      padding: 12px;
+      color: var(--accent);
+      background: rgba(184, 255, 69, 0.08);
+      border: 1px solid rgba(184, 255, 69, 0.3);
+      border-radius: 8px;
+      line-height: 1.5;
+    }
+
+    .order-items {
+      padding: 0;
+      list-style: none;
+    }
+
+    .order-items li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .total span:last-child {
+      color: var(--accent);
+    }
+
+
+    .journey {
+      margin: 20px 0;
+      padding: 18px;
+      background: rgba(184, 255, 69, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .journey h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .journey-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .journey-list li {
+      padding: 12px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .journey-list li.completed,
+    .journey-list li.current {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    .journey-list li.current {
+      background: rgba(184, 255, 69, 0.1);
+      box-shadow: 0 0 12px rgba(184, 255, 69, 0.08);
+    }
+
+    .journey-note {
+      margin-bottom: 0;
+      color: var(--accent);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 480px) {
+      .journey-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    .page-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 0;
+      padding: 12px 18px;
+      color: #101112;
+      background: var(--accent);
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+
+    .demo-advance-button {
+      margin: 0 0 12px;
+      padding: 10px 14px;
+      color: #101112;
+      background: var(--accent);
+      border: 0;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .demo-advance-button:hover {
+      background: var(--accent-hover);
+    }
+
+    .demo-advance-button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+
+    .back-link:hover {
+      background: var(--accent-hover);
+    }
+
+    .back-link:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+
+      .order {
+        padding: 16px;
+      }
+
+      .order-items li {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>My Orders</h1>
+    <p class="intro">Your CaféQuick order history and demo payment records.</p>
+
+    {% if orders %}
+      {% for order in orders %}
+      <article class="order">
+        <h2>Order for {{ order["user"] }}</h2>
+
+        <p class="order-reference">
+          Reference: {{ order["id"][:8]|upper }}
+        </p>
+
+<ul class="order-items">
+  {% for item in order["items"] %}
+  <li>
+    <span>
+      {{ item["item"] }}
+      <br>
+      <small>
+        Quantity: {{ item.get("quantity", 1) }}
+        × R{{ "%.2f"|format(item["price"]) }}
+      </small>
+    </span>
+    <span>
+      R{{ "%.2f"|format(item["price"] * item.get("quantity", 1)) }}
+    </span>
+  </li>
+  {% endfor %}
+</ul>
+
+        <p class="total">
+          <span>Total</span>
+          <span>R{{ "%.2f"|format(order["total"]) }}</span>
+        </p>
+
+
+<p class="payment-status">
+  <strong>Order status:</strong> {{ order.get("status", "Confirmed") }}<br>
+  <strong>Payment:</strong> {{ order.get("payment_status", "Not recorded") }}<br>
+  <strong>Method:</strong> {{ order.get("payment_method", "Not specified") }}
+</p>
+
+{% set journey_stages = ["Confirmed", "Brewing", "Almost ready", "Ready for collection"] %}
+{% set current_status = order.get("status", "Confirmed") %}
+{% set stage_index = journey_stages.index(current_status) if current_status in journey_stages else 0 %}
+
+<section class="journey" aria-label="Coffee Journey progress">
+  <h3>Your Coffee Journey</h3>
+
+
+  {% if coffee_journey_demo_enabled and order.get("status", "Confirmed") != "Ready for collection" %}
+  <form method="post" action="{{ url_for('demo_advance_order', order_id=order['id']) }}">
+    <button type="submit" class="demo-advance-button">
+      Demo: Advance to next stage
+    </button>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  </form>
+  {% endif %}
+
+
+  <ol class="journey-list" aria-label="Coffee Journey stages">
+    {% for stage in journey_stages %}
+    <li class="{% if loop.index0 < stage_index %}completed{% elif loop.index0 == stage_index %}current{% endif %}"
+        {% if loop.index0 == stage_index %}aria-current="step"{% endif %}>
+      {% if loop.index0 < stage_index %}✓ {% elif loop.index0 == stage_index %}● {% else %}○ {% endif %}
+      {{ stage }}
+    </li>
+    {% endfor %}
+  </ol>
+
+  {% if current_status == "Almost ready" %}
+  <p class="journey-note">
+    ☕ Your coffee is nearly ready! Please allow about 5 minutes before collection.
+  </p>
+  {% elif current_status == "Ready for collection" %}
+  <p class="journey-note">
+    ☕ Your coffee is ready! Please collect your order.
+  </p>
+  {% else %}
+  <p class="journey-note">
+    We're preparing your order. We'll update its progress as it moves along.
+  </p>
+  {% endif %}
+</section>
+
+      </article>
+      {% endfor %}
+    {% else %}
+      <p class="empty-message">
+        No past orders found. Browse our cafés and try a demo checkout!
+      </p>
+    {% endif %}
+
+
+    <nav class="page-actions" aria-label="Order navigation">
+      <a href="{{ url_for('browse_cafes') }}" class="back-link">Browse Caf&#233;s</a>
+      <a href="{{ url_for('logout') }}" class="back-link">Log out</a>
+    </nav>
+  </main>
+</body>
+</html>

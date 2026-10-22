@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Cafes</title>
+  <style>
+
+/* Browse Cafés — aligned with the CaféQuick homepage */
+:root {
+  color-scheme: dark;
+  --background: #101112;
+  --surface: #1b1d1e;
+  --surface-light: #292c2d;
+  --cream: #ffffff;
+  --muted: #c7c9c7;
+  --accent: #b8ff45;
+  --accent-hover: #ccff78;
+  --border: rgba(255, 255, 255, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 48px 24px;
+  font-family: Arial, sans-serif;
+  color: var(--cream);
+  background:
+    radial-gradient(
+      circle at 78% 30%,
+      rgba(137, 84, 46, 0.24),
+      transparent 42%
+    ),
+    var(--background);
+}
+
+.container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(27, 29, 30, 0.88);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+}
+
+h1 {
+  margin: 0 0 28px;
+  color: var(--cream);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.2;
+  text-align: center;
+}
+
+.page-nav {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.home-link {
+  display: inline-block;
+  padding: 10px 16px;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.home-link:hover {
+  color: #101112;
+  background: var(--accent);
+}
+
+.home-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.scroll-container {
+  display: flex;
+  gap: 20px;
+  max-width: 100%;
+  padding: 8px 4px 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+}
+
+.scroll-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #555950;
+  border-radius: 10px;
+}
+
+.image-item {
+  width: 100%;
+  min-width: 0;
+  position: relative;
+  padding: 0 0 20px;
+  overflow: hidden;
+  text-align: center;
+  white-space: normal;
+  background: var(--surface-light);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  scroll-snap-align: start;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.image-item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(184, 255, 69, 0.55);
+}
+
+.image-item > img {
+  display: block;
+  width: 100%;
+  height: 155px;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.image-item p {
+  min-height: 48px;
+  margin: 18px 12px 10px;
+  color: var(--cream);
+  font-size: 1.05rem;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.logo {
+  position: absolute;
+  top: 112px;
+  left: 50%;
+  width: 42px;
+  height: 42px;
+  padding: 7px;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+}
+
+.logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: none;
+}
+
+.menu-button {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 11px 18px;
+  color: #101112;
+  background: var(--accent);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.add-cart-shortcut {
+  margin-left: 8px;
+  color: var(--accent);
+  background: transparent;
+  border-color: var(--accent);
+}
+
+.add-cart-shortcut:hover {
+  color: #101112;
+  background: var(--accent-hover);
+}
+.menu-button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.menu-button:focus-visible,
+.scroll-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.scroll-btn {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  transform: translateY(-50%);
+  color: var(--accent);
+  background: var(--surface-light);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.scroll-btn:hover {
+  background: #383c37;
+}
+
+.left-btn {
+  left: 8px;
+}
+
+.right-btn {
+  right: 8px;
+}
+
+
+.scroll-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  padding: 8px 4px 20px;
+}
+
+@media (max-width: 700px) {
+  .scroll-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 460px) {
+  .scroll-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 24px 14px;
+  }
+
+  .container {
+    padding: 22px 14px;
+  }
+
+  .image-item {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+  <nav class="page-nav" aria-label="Page navigation">
+     <a href="{{ url_for('index') }}" class="home-link">← Home</a>
+
+     <a href="{{ url_for('view_cart') }}" class="home-link">View Cart</a>
+</nav>
+    <h1>Browse Cafes</h1>
+
+        <div class="scroll-container">
+      {% for cafe in cafes %}
+      <div class="image-item">
+        <img
+          src="{{ url_for('static', filename='images/' ~ ({1: 'mphos-daily-grind.jpg', 2: 'thandis-brew-corner.jpg', 3: 'jabus-coffee-house.jpg', 4: 'leratos-coffee-garden.jpg', 5: 'soweto-sunrise-cafe.jpg', 6: 'ubuntu-bean-house.jpg'}[cafe.id])) }}"
+          alt="{{ cafe.name }}">
+
+        <div class="logo">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/590/590836.png"
+            alt="Coffee mug">
+        </div>
+
+        <p>{{ cafe.name }}</p>
+        <a href="{{ url_for('view_menu', cafe_id=cafe.id) }}" class="menu-button">
+          View Menu
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    </div>
+  </div>
+
+    {% include '_chat_assistant.html' %}
+</body>
+
+</html>
