@@ -1,39 +1,117 @@
-# coffee_order_system
-Coffee Queue-Free Ordering System
+# CaféQuick — Coffee Queue-Free Ordering System
 
-Welcome to the Coffee Queue-Free Ordering System! This app allows you to place your coffee order ahead of time from a variety of independent cafes and coffee shops in your area. Skip the lines and simply pick up your order at the designated time, saving you precious minutes in the morning.
-How It Works
+CaféQuick is a Flask-based web application concept that lets customers browse independent, South African-themed cafés, view menus, build a shopping cart, and simulate placing an order.
 
-    Browse Local Cafes & Coffee Shops
-    Open the app and browse through a list of nearby independent cafes and coffee shops. Each location offers its own unique menu and specialties.
+The project explores the customer journey of a café ordering system, from account registration and menu browsing through checkout and order tracking.
 
-    Customize Your Coffee Order
-    Select your preferred coffee or beverage from the menu. You can customize your order by choosing the size, milk preference, sweetness level, and any extra add-ons like flavorings, toppings, or pastries.
+## Features
 
-    Choose Your Pickup Time
-    After finalizing your order, select a pickup time that fits your schedule. This allows you to avoid standing in line and ensures your coffee will be ready when you arrive.
+- **Café discovery:** Browse a collection of themed cafés.
+- **Menu browsing:** View menu items for individual cafés.
+- **User accounts:** Register with an email address and log in using email or name, with hashed passwords.
+- **Shopping cart:** Add items, update quantities, and manage cart contents.
+- **Checkout:** Review an order and complete a simulated payment.
+- **Order history:** View orders associated with the logged-in account.
+- **Demo order tracking:** Progress orders through Confirmed, Brewing, Almost ready, and Ready for collection when demo progression is enabled.
+- **CSRF protection:** Validate CSRF tokens on POST requests.
+- **Café assistant interface:** A reusable chat-style interface with its own CSS and JavaScript.
+- **Automated tests:** Tests covering cart, checkout, login, menus, orders, registration, and demo order progression.
 
-    Proceed to Payment
-    Once your order and pickup time are confirmed, proceed to payment through a secure third-party payment processor (such as Stripe or PayPal).
+## Technology Stack
 
-    Receive Your Order Confirmation
-    After payment, you will receive a confirmation with the details of your order, including a unique order number. This number can be used to track your order or for customer support purposes.
+- Python
+- Flask
+- Werkzeug password-hashing utilities
+- HTML and CSS
+- JavaScript
+- Python `unittest`
 
-    Pickup Your Order
-    Head to the selected cafe or coffee shop at your designated time, where your order will be waiting for you. No more waiting in long lines!
+## Getting Started
 
-Features
+### Prerequisites
 
-    Multiple Cafes & Coffee Shops: Choose from a wide range of independent cafes and coffee shops, each with its own menu and specialties.
-    Order Customization: Fully customize your coffee or beverage, from size and milk preference to sweeteners and extras.
-    Time-Saving: Skip the lines by selecting a pickup time that works for you.
-    Secure Payment: Your payment is processed through a trusted, secure third-party service.
-    Unique Order Number: Each order is assigned a unique number for easy tracking and customer support.
+- Python installed
+- Git
+- PowerShell on Windows, or an equivalent terminal
 
-Benefits
+### 1. Clone the repository
 
-    Avoid Long Wait Times: Never wait in line again! Place your order in advance and simply pick it up at the selected time.
-    Support Local Cafes: Enjoy coffee from independent, local businesses and help support their success.
-    Convenient & Easy: Place and customize your order quickly, and get your coffee exactly the way you like it.
+```bash
+git clone https://github.com/Dimakyi/Dimakyi.github.io.git
+cd Dimakyi.github.io
+```
 
+### 2. Create a virtual environment
+
+On Windows PowerShell:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+If PowerShell blocks activation, you can use the environment's Python executable directly in the following steps.
+
+### 3. Install dependencies
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+### 4. Configure the Flask secret key
+
+For local development, the application has a fallback secret key. For better session security, set your own secret key in the current PowerShell session before running the app:
+
+```powershell
+$env:FLASK_SECRET_KEY = python -c "import secrets; print(secrets.token_hex(32))"
+```
+
+Do not commit real secret keys to GitHub.
+
+### 5. Run the application
+
+```powershell
+python cafe_app.py
+```
+
+Open the local address shown in the terminal, normally `http://127.0.0.1:5000`.
+
+Use the application locally for development and testing. Do not expose Flask's debug server to the public internet.
+
+## Running the Tests
+
+Run the automated test suite from the project directory:
+
+```powershell
+python -m unittest discover -v
+```
+
+The project has previously passed **28 automated tests** covering key application workflows. Run the suite again after making changes to confirm the current result.
+
+## Current Limitations
+
+CaféQuick is a development/demo application, not a production-ready ordering platform.
+
+- **Simulated payments:** No real payment provider is integrated, and no real payment is processed.
+- **In-memory data:** User accounts and orders are stored in Python lists and are lost when the application restarts.
+- **Session-based cart:** Cart contents are stored in the user's session.
+- **Demo order progression:** Order status changes are simulated, not connected to a real café kitchen or fulfilment system.
+- **Pickup scheduling:** A production pickup-time reservation workflow has not been implemented.
+- **Production deployment:** Persistent database storage, production secret management, and production server configuration would be needed before real-world use.
+
+## Future Improvements
+
+- Add persistent database storage.
+- Integrate a real payment provider in a secure test environment.
+- Implement pickup-time selection and order preparation workflows.
+- Improve deployment configuration and production security.
+- Expand automated testing and user experience improvements.
+
+## Project Purpose
+
+CaféQuick is a practical project for developing and demonstrating skills in Python, Flask, web application development, session handling, password hashing, request validation, and automated testing.
+
+## Repository
+
+[View CaféQuick on GitHub](https://github.com/Dimakyi/Dimakyi.github.io)
 
