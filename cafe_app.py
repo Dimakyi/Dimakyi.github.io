@@ -11,14 +11,13 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-change-this-key")
+app.config["SECRET_KEY"] = os.environ.get("FLASK_SECRET_KEY")
+if not app.config["SECRET_KEY"]:
+    raise RuntimeError("FLASK_SECRET_KEY environment variable must be set.")
 
 @app.context_processor
 def inject_csrf_token():
     return {"csrf_token": get_csrf_token()}
-
-
-
 
 @app.before_request
 def protect_post_requests():
@@ -429,4 +428,4 @@ def demo_advance_order(order_id):
     return redirect(url_for('order_history'))
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=False)
