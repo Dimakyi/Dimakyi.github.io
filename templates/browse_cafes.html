@@ -144,26 +144,7 @@ h1 {
   line-height: 1.5;
 }
 
-.logo {
-  position: absolute;
-  top: 112px;
-  left: 50%;
-  width: 42px;
-  height: 42px;
-  padding: 7px;
-  transform: translate(-50%, -50%);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: var(--surface);
-}
 
-.logo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: none;
-}
 
 .menu-button {
   display: inline-block;
@@ -295,12 +276,6 @@ h1 {
         <img
           src="{{ url_for('static', filename='images/' ~ ({1: 'mphos-daily-grind.jpg', 2: 'thandis-brew-corner.jpg', 3: 'jabus-coffee-house.jpg', 4: 'leratos-coffee-garden.jpg', 5: 'soweto-sunrise-cafe.jpg', 6: 'ubuntu-bean-house.jpg'}[cafe.id])) }}"
           alt="{{ cafe.name }}">
-
-        <div class="logo">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/590/590836.png"
-            alt="Coffee mug">
-        </div>
 
         <p>{{ cafe.name }}</p>
         <a href="{{ url_for('view_menu', cafe_id=cafe.id) }}" class="menu-button">
