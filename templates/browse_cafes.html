@@ -257,6 +257,65 @@ h1 {
   }
 }
 
+
+.cafe-search {
+  margin: 0 0 28px;
+}
+
+.cafe-search label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-weight: bold;
+}
+
+.search-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.search-controls input {
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: 12px 14px;
+  color: var(--cream);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.search-controls input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.search-controls .menu-button {
+  margin-top: 0;
+}
+
+@media (max-width: 460px) {
+  .search-controls > * {
+    width: 100%;
+  }
+}
+
+.nearby-controls {
+  display: block;
+  margin: 0 0 28px;
+}
+
+.nearby-controls button {
+  display: inline-block;
+  cursor: pointer;
+}
+
+#nearby-status {
+  margin-top: 10px;
+  color: var(--muted);
+}
+
   </style>
 </head>
 
@@ -270,9 +329,48 @@ h1 {
 </nav>
     <h1>Browse Cafes</h1>
 
+
+<form class="cafe-search" action="{{ url_for('browse_cafes') }}" method="GET">
+  <label for="cafe-search-input">Find your next coffee spot</label>
+
+  <div class="search-controls">
+    <input
+      id="cafe-search-input"
+      type="search"
+      name="q"
+      placeholder="Search cafés by name..."
+      value="{{ search_query }}"
+      aria-label="Search cafés by name"
+    >
+    <button class="menu-button" type="submit">Search</button>
+
+    {% if search_query %}
+      <a class="home-link" href="{{ url_for('browse_cafes') }}">Clear</a>
+    {% endif %}
+  </div>
+</form>
+<div class="nearby-controls">
+  <button type="button" class="menu-button" id="find-nearby-btn">
+    Find Near Me
+  </button>
+  <p role="status" aria-live="polite" id="nearby-status">
+    Demo locations only — distances are illustrative.
+  </p>
+</div>
+
+{% if not cafes %}
+  <p role="status">No cafés found. Try another café name.</p>
+{% endif %}
+
         <div class="scroll-container">
+
       {% for cafe in cafes %}
-      <div class="image-item">
+      <div
+        class="image-item"
+        data-latitude="{{ cafe.latitude }}"
+        data-longitude="{{ cafe.longitude }}"
+      >
+
         <img
           src="{{ url_for('static', filename='images/' ~ ({1: 'mphos-daily-grind.jpg', 2: 'thandis-brew-corner.jpg', 3: 'jabus-coffee-house.jpg', 4: 'leratos-coffee-garden.jpg', 5: 'soweto-sunrise-cafe.jpg', 6: 'ubuntu-bean-house.jpg'}[cafe.id])) }}"
           alt="{{ cafe.name }}">
@@ -288,6 +386,116 @@ h1 {
   </div>
 
     {% include '_chat_assistant.html' %}
+
+<script>
+(function () {
+  const button = document.getElementById("find-nearby-btn");
+  const status = document.getElementById("nearby-status");
+  const container = document.querySelector(".scroll-container");
+
+  if (!button || !status || !container) return;
+
+  function distanceKm(lat1, lon1, lat2, lon2) {
+    const radians = degrees => degrees * Math.PI / 180;
+    const earthRadiusKm = 6371;
+
+    const dLat = radians(lat2 - lat1);
+    const dLon = radians(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(radians(lat1)) *
+      Math.cos(radians(lat2)) *
+      Math.sin(dLon / 2) ** 2;
+
+    return earthRadiusKm * 2 * Math.atan2(
+      Math.sqrt(a),
+      Math.sqrt(1 - a)
+    );
+  }
+
+  button.addEventListener("click", function () {
+    if (!navigator.geolocation) {
+      status.textContent =
+        "Your browser does not support location sharing.";
+      return;
+    }
+
+    button.disabled = true;
+    status.textContent = "Requesting your location…";
+
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        const userLat = position.coords.latitude;
+        const userLon = position.coords.longitude;
+
+        const cards = Array.from(
+          container.querySelectorAll(".image-item")
+        );
+
+        cards.forEach(function (card) {
+          const lat = Number(card.dataset.latitude);
+          const lon = Number(card.dataset.longitude);
+
+          const distance = distanceKm(
+            userLat, userLon, lat, lon
+          );
+
+          let label = card.querySelector(".nearby-distance");
+
+          if (!label) {
+            label = document.createElement("p");
+            label.className = "nearby-distance";
+            label.setAttribute("aria-label", "Illustrative distance");
+            const name = card.querySelector("p");
+            if (name) {
+              name.insertAdjacentElement("afterend", label);
+            } else {
+              card.prepend(label);
+            }
+          }
+
+          label.textContent =
+            "Illustrative distance: " + distance.toFixed(1) + " km";
+
+          card.dataset.distance = distance;
+        });
+
+        cards.sort(function (a, b) {
+          return Number(a.dataset.distance) -
+                 Number(b.dataset.distance);
+        });
+
+        cards.forEach(card => container.appendChild(card));
+
+        status.textContent =
+          "Sorted by distance using your shared location. " +
+          "Demo café coordinates are artificial, so these " +
+          "distances are not real-world directions.";
+        button.disabled = false;
+      },
+      function (error) {
+        const messages = {
+          1: "Location permission was denied. You can still search by café name.",
+          2: "Your location is unavailable. Please try again.",
+          3: "The location request timed out. Please try again."
+        };
+
+        status.textContent =
+          messages[error.code] ||
+          "We couldn't get your location. Please try again.";
+
+        button.disabled = false;
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 10000,
+        maximumAge: 60000
+      }
+    );
+  });
+})();
+</script>
+
 </body>
 
 </html>

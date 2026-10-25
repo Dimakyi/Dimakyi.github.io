@@ -40,10 +40,13 @@ COFFEE_JOURNEY_DEMO_ENABLED = (
     os.environ.get("COFFEE_JOURNEY_DEMO_ENABLED") == "1"
 )
 
+
 cafes = [
     {
         "id": 1,
         "name": "Mpho's Daily Grind",
+        "latitude": -26.2000,   # DEMO ONLY — not a real café location
+        "longitude": 28.0400,   # DEMO ONLY — not a real café location
         "menu": [
             {"id": 1, "item": "Coffee", "price": 5.0},
             {"id": 2, "item": "Tea", "price": 3.0},
@@ -52,6 +55,8 @@ cafes = [
     {
         "id": 2,
         "name": "Thandi's Brew Corner",
+        "latitude": -26.2050,   # DEMO ONLY — not a real café location
+        "longitude": 28.0500,   # DEMO ONLY — not a real café location
         "menu": [
             {"id": 1, "item": "Latte", "price": 6.0},
             {"id": 2, "item": "Espresso", "price": 4.0},
@@ -60,6 +65,8 @@ cafes = [
     {
         "id": 3,
         "name": "Jabu's Coffee House",
+        "latitude": -26.1900,   # DEMO ONLY — not a real café location
+        "longitude": 28.0300,   # DEMO ONLY — not a real café location
         "menu": [
             {"id": 1, "item": "Mocha", "price": 8.0},
             {"id": 2, "item": "Cappuccino", "price": 5.0},
@@ -68,6 +75,8 @@ cafes = [
     {
         "id": 4,
         "name": "Lerato's Coffee Garden",
+        "latitude": -26.2150,   # DEMO ONLY — not a real café location
+        "longitude": 28.0250,   # DEMO ONLY — not a real café location
         "menu": [
             {"id": 1, "item": "Flat White", "price": 7.0},
             {"id": 2, "item": "Rooibos Tea", "price": 4.0},
@@ -76,6 +85,8 @@ cafes = [
     {
         "id": 5,
         "name": "Soweto Sunrise Cafe",
+        "latitude": -26.2500,   # DEMO ONLY — not a real café location
+        "longitude": 27.9000,   # DEMO ONLY — not a real café location
         "menu": [
             {"id": 1, "item": "Cafe Mocha", "price": 8.0},
             {"id": 2, "item": "Hot Chocolate", "price": 6.0},
@@ -84,6 +95,8 @@ cafes = [
     {
         "id": 6,
         "name": "Ubuntu Bean House",
+        "latitude": -26.1800,   # DEMO ONLY — not a real café location
+        "longitude": 28.0700,   # DEMO ONLY — not a real café location
         "menu": [
             {"id": 1, "item": "Americano", "price": 5.0},
             {"id": 2, "item": "Cappuccino", "price": 7.0},
@@ -152,9 +165,22 @@ def login():
 
     return render_template('login.html')
 
+
 @app.route('/browse_cafes')
 def browse_cafes():
-    return render_template('browse_cafes.html', cafes=cafes)
+    search_query = request.args.get('q', '').strip()
+
+    filtered_cafes = [
+        cafe for cafe in cafes
+        if search_query.casefold() in cafe['name'].casefold()
+    ]
+
+    return render_template(
+        'browse_cafes.html',
+        cafes=filtered_cafes,
+        search_query=search_query,
+    )
+
 
 @app.route('/menu/<int:cafe_id>')
 def view_menu(cafe_id):
