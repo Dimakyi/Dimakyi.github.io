@@ -306,10 +306,58 @@ h1 {
   margin: 0 0 28px;
 }
 
+
 .nearby-controls button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 20px;
+  color: var(--cream);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.13),
+    rgba(120, 160, 100, 0.10)
+  );
+  border: 1px solid rgba(180, 210, 160, 0.55);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.20),
+    0 4px 14px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
+.nearby-controls button:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.19),
+    rgba(120, 160, 100, 0.17)
+  );
+  border-color: rgba(200, 230, 180, 0.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 6px 18px rgba(0, 0, 0, 0.24);
+  transform: translateY(-1px);
+}
+
+.nearby-controls button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.nearby-controls button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  transform: none;
+}
+
 
 #nearby-status {
   margin-top: 10px;
@@ -351,8 +399,9 @@ h1 {
 </form>
 <div class="nearby-controls">
   <button type="button" class="menu-button" id="find-nearby-btn">
-    Find Near Me
-  </button>
+  <span aria-hidden="true">⌖</span>
+  Find Near Me
+</button>
   <p role="status" aria-live="polite" id="nearby-status">
     Demo locations only — distances are illustrative.
   </p>
