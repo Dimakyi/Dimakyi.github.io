@@ -50,7 +50,7 @@ On Windows PowerShell:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+.\\.venv\\Scripts\\Activate.ps1
 ```
 
 If PowerShell blocks environment activation, use the virtual environment's Python executable directly in the following steps.
@@ -115,6 +115,16 @@ CaféQuick is a development and demonstration project, not a production-ready or
 ## Project Purpose
 
 CaféQuick is a hands-on project for developing and demonstrating skills in Python, Flask, web application development, session management, password hashing, request validation, and automated testing.
+
+## License
+
+CaféQuick is licensed under the **CafeQuick Non-Commercial License**.
+
+You may use, copy, modify, and share this software for non-commercial purposes, including personal use, learning, research, and use by schools and non-profit organizations. Commercial use — including selling the software, sublicensing it, offering it as a paid service, or incorporating it into a paid product — requires prior written permission from the copyright holder, Charlotte Masake.
+
+Copies and modified versions must retain the license notice and credit the original author. The software is provided "as is", without warranty.
+
+See the full [CafeQuick Non-Commercial License](LICENSE) for the complete terms.
 
 ## Repository
 
